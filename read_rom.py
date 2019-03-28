@@ -5,10 +5,15 @@ import cart #Cartridge class
 
 def main():
     if len(argv) is 3:
-        rom = cart.ROM(open(argv[1], "rb").read())
-        output = open(argv[2], "w")
+        input_file = open(argv[1], "rb")
+        output_file = open(argv[2], "w")
+        
+        rom = cart.ROM(input_file.read())
+        rom.disassemble(output_file)
 
-        output.write("; Disassembled with https://github.com/awjnsn/gbdump");
+        input_file.close()
+        output_file.close()
+
     else:
         print("Usage: " + argv[0] + " rom_file output_file")
 
