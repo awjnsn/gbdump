@@ -177,7 +177,7 @@ class ROM:
 
     def d16(self):
         f = '${:02X}{:02X}'
-        return f.format(self.data[self.index + 1], self.data[self.index + 2])
+        return f.format(self.data[self.index + 2], self.data[self.index + 1])
     
     def a8(self):
         return self.d8()
@@ -187,7 +187,6 @@ class ROM:
 
     def r8(self):
         return self.d8()
-
 
     #Main entry point for disassembly
     def disassemble(self, output):
