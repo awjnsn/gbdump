@@ -1,11 +1,15 @@
+import hashlib
 from enum import Enum
-from hashlib import md5
+
 
 #Class to represent a Gameboy ROM
 class ROM:
 
     #Initializes the ROM object
     def __init__(self, bytes):
+        hasher = hashlib.md5()
+        hasher.update(bytes)
+        self.hash = hasher.hexdigest()
         self.data = [int(b) for b in bytes]
         self.header = {
             "good_header" : self._check_header(),
@@ -191,13 +195,20 @@ class ROM:
     #Main entry point for disassembly
     def disassemble(self, output):
         self.output = output
-
+        
         self.output.write("; Disassembled with github.com/awjnsn/gbdump\n")
+        
+        self.output.write("; Cartridge MD5 Hash " + self.hash + "\n")
+
+        self.output.write(";\n")
 
         self.output.write("; Cartridge header info:\n")
+        
         for k, v in self.header.items():
             self.output.write("; " + str(k) + ": " + str(v) + "\n")
         
+        self.output.write("\n")
+
         self.index = 0
 
         cb_instruction_table = {
